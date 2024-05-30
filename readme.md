@@ -1,6 +1,17 @@
 # Backend Project
 
-Este es el backend para un sistema de gestión de contenido, categorías, temas y usuarios, utilizando Node.js, TypeORM, Typedi, y Routing-Controllers.
+Este es el backend para un sistema de gestión de contenido, categorías, temas y usuarios, utilizando 
+
+- Node.js
+- Typescript
+- ExpressJS
+- TypeORM
+- Inyeccion de dependencias con Typedi 
+- Routing-Controllers.
+- Data Transfer object para proteccion de rutas.
+- Middleware para proteccion de sesion de usuario.
+- Capas de Repositorios, Servicios y Controladores.
+- Permisos estandar de roles de usuarios
 
 ## Requisitos Previos
 
