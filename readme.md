@@ -75,14 +75,14 @@ La estructura del proyecto está organizada de la siguiente manera:
 
 
 ### IMPORTANTE:
-```json
-Para tener un orden en el flujo de backend con la informacion de base de datos se debe de injestar informacion en el siguiente orden
+
+## Para tener un orden en el flujo de backend con la informacion de base de datos se debe de injestar informacion en el siguiente orden
 - Crear roles
 - Crear usuarios
 - Crear themes
 - Crear Categorias
 - Crear contents
-```
+
 
 # Documentacion API
 
