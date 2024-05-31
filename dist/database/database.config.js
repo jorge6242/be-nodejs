@@ -14,6 +14,7 @@ const initializeDataSource = async () => {
         url: "mongodb://localhost:27017",
         database: "nodejs",
         entities: [user_entity_1.User, category_entity_1.Category, theme_entity_1.Theme, content_entity_1.Content, role_entity_1.Role],
+        migrations: ["dist/migration/**/*.js"],
         synchronize: false,
         logging: true,
     });
