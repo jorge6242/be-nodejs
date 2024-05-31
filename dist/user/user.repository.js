@@ -24,6 +24,19 @@ let UserRepository = class UserRepository {
         this.repo = this.dataSource.getMongoRepository(user_entity_1.User);
         this.roleRepo = this.dataSource.getMongoRepository(role_entity_1.Role);
     }
+    async findAllUsers(search) {
+        if (search) {
+            return this.repo.find({
+                where: {
+                    $or: [
+                        { alias: new RegExp(search, 'i') },
+                        { email: new RegExp(search, 'i') }
+                    ]
+                }
+            });
+        }
+        return this.repo.find();
+    }
     async createUser(data) {
         const { alias, email, roles } = data;
         const existAlias = await this.repo.findOne({ where: { alias } });
@@ -37,8 +50,7 @@ let UserRepository = class UserRepository {
     async updateUser(id, data) {
         const { alias, email, roles } = data;
         const objectId = new mongodb_1.ObjectId(id);
-        let user = await this.repo.findOneBy({ _id: objectId });
-        console.log('user ', user);
+        let user = await this.repo.findOne({ where: { _id: objectId } });
         if (!user) {
             throw new Error("User not found");
         }

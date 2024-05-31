@@ -7,6 +7,7 @@ import {
   Put,
   Param,
   UnauthorizedError,
+  QueryParam,
 } from "routing-controllers";
 import { Service } from "typedi";
 import { Response } from "express";
@@ -25,7 +26,6 @@ export class UserController {
   async login(@Body() body: { email: string }, @Res() response: Response): Promise<Response> {
     try {
       const user = await this.service.findByEmail(body.email);
-      console.log('user ', user);
       if (!user) {
         throw new UnauthorizedError("User not found");
       }
@@ -36,7 +36,6 @@ export class UserController {
 
       return response.json({ token, user });
     } catch (error: any) {
-      console.log('error ', error);
       if (error instanceof UnauthorizedError) {
         return response.status(401).json({ message: "User not found" });
       }
@@ -85,9 +84,9 @@ export class UserController {
   }
 
   @Get("/")
-  async getAll(@Res() response: Response): Promise<Response> {
+  async getAll(@Res() response: Response, @QueryParam("search") search: string): Promise<Response> {
     try {
-      const newUser = await this.service.getAll();
+      const newUser = await this.service.getAll(search);
       return response.status(201).json(newUser);
     } catch (error: any) {
       console.error("Failed to get user:", error);

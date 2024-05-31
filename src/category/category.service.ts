@@ -20,7 +20,7 @@ export class CategoryService {
     return this.repo.getCategoryById(id);
   }
 
-  async updateCategory(id: string, name: string, description: string): Promise<Category> {
-    return this.repo.updateCategory(id, name, description);
+  async updateCategory(id: string, name: string): Promise<Category> {
+    return this.repo.updateCategory(id, name);
   }
 }

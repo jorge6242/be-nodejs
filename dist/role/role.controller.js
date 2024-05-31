@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleController = void 0;
-// src/role/role.controller.ts
 const routing_controllers_1 = require("routing-controllers");
 const typedi_1 = require("typedi");
 const role_service_1 = require("./role.service");

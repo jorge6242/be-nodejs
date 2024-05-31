@@ -6,13 +6,14 @@ import { Theme } from "../theme/theme.entity";
 import { Content } from "../content/content.entity";
 import { Role } from '../role/role.entity';
 
-export const initializeDataSource = () => {
+export const initializeDataSource = async () => {
   const dataSource = new DataSource({
     type: "mongodb",
     url: "mongodb://localhost:27017",
     database: "nodejs",
     entities: [User, Category, Theme, Content, Role],
-    synchronize: true,
+    migrations: ["dist/migration/**/*.js"],
+    synchronize: false,
     logging: true,
   });
 

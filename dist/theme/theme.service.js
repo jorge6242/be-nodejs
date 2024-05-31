@@ -22,8 +22,8 @@ let ThemeService = class ThemeService {
     async store(name) {
         return this.repo.createTheme(name);
     }
-    async getAll() {
-        return this.repo.findAll();
+    async getAll(search) {
+        return this.repo.findAll(search);
     }
     async findById(id) {
         return this.repo.findById(id);

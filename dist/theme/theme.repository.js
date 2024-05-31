@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ThemeRepository = void 0;
-// UserRepository.ts
 const typeorm_1 = require("typeorm");
 const typedi_1 = require("typedi");
 const theme_entity_1 = require("./theme.entity");
@@ -33,14 +32,23 @@ let ThemeRepository = class ThemeRepository {
         const newTheme = this.repo.create({ name });
         return await this.repo.save(newTheme);
     }
-    async findAll() {
-        return await this.repo.find();
+    async findAll(search) {
+        if (search) {
+            return await this.repo.find({
+                where: {
+                    name: new RegExp(search, 'i')
+                }
+            });
+        }
+        else {
+            return await this.repo.find();
+        }
     }
     async findById(id) {
-        return await this.repo.findOneBy({ id: new mongodb_1.ObjectId(id) });
+        return await this.repo.findOne({ where: { id: new mongodb_1.ObjectId(id) } });
     }
     async updateTheme(id, name) {
-        const theme = await this.repo.findOneBy({ id: new mongodb_1.ObjectId(id) });
+        const theme = await this.repo.findOne({ where: { _id: new mongodb_1.ObjectId(id) } });
         if (!theme)
             return null;
         theme.name = name;

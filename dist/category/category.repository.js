@@ -30,13 +30,13 @@ let CategoryRepository = class CategoryRepository {
         return await this.repo.find();
     }
     async getCategoryById(id) {
-        return await this.repo.findOneBy({ id: new mongodb_1.ObjectId(id) });
+        return await this.repo.findOne({ where: { id: new mongodb_1.ObjectId(id) } });
     }
-    async updateCategory(id, name, description) {
-        const category = await this.repo.findOneBy({ id: new mongodb_1.ObjectId(id) });
+    async updateCategory(id, name) {
+        const category = await this.repo.findOne({ where: { _id: new mongodb_1.ObjectId(id) } });
         if (!category)
             throw new Error("Category not found");
-        this.repo.merge(category, { name, description });
+        this.repo.merge(category, { name });
         return await this.repo.save(category);
     }
 };

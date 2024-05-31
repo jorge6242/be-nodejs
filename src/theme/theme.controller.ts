@@ -1,4 +1,4 @@
-import { JsonController, Post, Body, Res, Get, Param, Put, UseBefore } from "routing-controllers";
+import { JsonController, Post, Body, Res, Get, Param, Put, UseBefore, QueryParam } from "routing-controllers";
 import { Service } from "typedi";
 import { Response } from "express";
 import { ThemeService } from './theme.service';
@@ -35,12 +35,12 @@ export class ThemeController {
 
   @Get("/")
   @UseBefore(CheckRoleMiddleware)
-  async getAll(@Res() response: Response): Promise<Response> {
+  async getAll(@Res() response: Response, @QueryParam("search") search: string): Promise<Response> {
     if (!response.locals.permissions.includes('read')) {
       return response.status(403).json({ message: "Access denied." });
     }
     try {
-      const themes = await this.service.getAll();
+      const themes = await this.service.getAll(search);
       return response.status(200).json(themes);
     } catch (error: any) {
       console.error("Failed to retrieve themes:", error);

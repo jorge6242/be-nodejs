@@ -33,19 +33,63 @@ let ContentRepository = class ContentRepository {
         return await this.repo.save(newUser);
     }
     async updateContent(id, data) {
-        const content = await this.repo.findOne({ where: { id } });
+        const { name, userId, themeId, categoryId } = data;
+        const content = await this.repo.findOne({
+            where: { _id: new mongodb_1.ObjectId(id) },
+        });
         if (!content) {
             throw new Error("Content not found");
         }
-        this.repo.merge(content, data);
+        this.repo.merge(content, {
+            name,
+            userId: new mongodb_1.ObjectId(userId),
+            themeId: new mongodb_1.ObjectId(themeId),
+            categoryId: new mongodb_1.ObjectId(categoryId),
+        });
         return await this.repo.save(content);
     }
     async getContentById(id) {
-        const content = await this.repo.findOneBy({ _id: new mongodb_1.ObjectId(id) });
+        const content = await this.repo.findOne({
+            where: { _id: new mongodb_1.ObjectId(id) },
+        });
         if (!content) {
             throw new Error("Content not found");
         }
         return content;
+    }
+    async getAll(search) {
+        let query = {};
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: "i" } },
+                { "theme.name": { $regex: search, $options: "i" } },
+                { "category.name": { $regex: search, $options: "i" } },
+            ];
+        }
+        return await this.repo
+            .aggregate([
+            {
+                $lookup: {
+                    from: "theme",
+                    localField: "themeId",
+                    foreignField: "_id",
+                    as: "theme",
+                },
+            },
+            {
+                $lookup: {
+                    from: "category",
+                    localField: "categoryId",
+                    foreignField: "_id",
+                    as: "category",
+                },
+            },
+            { $unwind: "$theme" },
+            { $unwind: "$category" },
+            { $match: query },
+            { $sort: { createdAt: -1 } },
+        ])
+            .toArray();
     }
 };
 exports.ContentRepository = ContentRepository;

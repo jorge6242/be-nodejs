@@ -28,8 +28,8 @@ let CategoryService = class CategoryService {
     async getCategoryById(id) {
         return this.repo.getCategoryById(id);
     }
-    async updateCategory(id, name, description) {
-        return this.repo.updateCategory(id, name, description);
+    async updateCategory(id, name) {
+        return this.repo.updateCategory(id, name);
     }
 };
 exports.CategoryService = CategoryService;

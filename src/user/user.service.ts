@@ -23,8 +23,8 @@ export class UserService {
   }
 
 
-  async getAll(): Promise<User[]> {
-    return this.userRepository.repo.find();
+  async getAll(search: string): Promise<User[]> {
+    return this.userRepository.findAllUsers(search);
   }
 
   async findByEmail(email: string): Promise<User | null> {

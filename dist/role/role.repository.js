@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleRepository = void 0;
-// src/role/role.repository.ts
 const typeorm_1 = require("typeorm");
 const typedi_1 = require("typedi");
 const role_entity_1 = require("./role.entity");

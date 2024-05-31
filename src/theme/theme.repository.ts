@@ -24,16 +24,24 @@ export class ThemeRepository {
   }
 
 
-  public async findAll(): Promise<Theme[]> {
-    return await this.repo.find();
+  public async findAll(search?: string): Promise<Theme[]> {
+    if (search) {
+      return await this.repo.find({
+        where: {
+          name: new RegExp(search, 'i')
+        }
+      });
+    } else {
+      return await this.repo.find();
+    }
   }
 
   public async findById(id: string): Promise<Theme | null> {
-    return await this.repo.findOneBy({ id: new ObjectId(id) });
+    return await this.repo.findOne({ where: { id: new ObjectId(id) } });
   }
 
   public async updateTheme(id: string, name: string): Promise<Theme | null> {
-    const theme = await this.repo.findOneBy({ id: new ObjectId(id) });
+    const theme = await this.repo.findOne({ where: { _id: new ObjectId(id) } });
     if (!theme) return null;
     theme.name = name;
     return await this.repo.save(theme);

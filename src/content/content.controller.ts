@@ -1,4 +1,4 @@
-import { JsonController, Post, Body, Res, Get, UseBefore, Put, Param } from "routing-controllers";
+import { JsonController, Post, Body, Res, Get, UseBefore, Put, Param, QueryParam } from "routing-controllers";
 import { Service } from "typedi";
 import { Response } from "express";
 import { ContentService } from './content.service';
@@ -70,13 +70,12 @@ export class ContentController {
 
   @Get("/")
   @UseBefore(CheckRoleMiddleware)
-  async getAll(@Res() response: Response): Promise<Response> {
+  async getAll(@Res() response: Response, @QueryParam("search") search?: string): Promise<Response> {
     try {
       if (!response.locals.permissions.includes('read')) {
         return response.status(403).json({ message: "Access denied." });
       }
-      const res = await this.service.getAll();
-      console.log('res ', res);
+      const res = await this.service.getAll(search);
       return response.status(201).json(res);
     } catch (error: any) {
       console.error("Failed to get contents:", error);

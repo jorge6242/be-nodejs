@@ -24,13 +24,13 @@ export class CategoryRepository {
   }
 
   public async getCategoryById(id: string): Promise<Category | null> {
-    return await this.repo.findOneBy({ id: new ObjectId(id) });
+    return await this.repo.findOne({ where: { id: new ObjectId(id) } });
   }
 
-  public async updateCategory(id: string, name: string, description: string): Promise<Category> {
-    const category = await this.repo.findOneBy({ id: new ObjectId(id) });
+  public async updateCategory(id: string, name: string): Promise<Category> {
+    const category = await this.repo.findOne({ where: { _id: new ObjectId(id) } });
     if (!category) throw new Error("Category not found");
-    this.repo.merge(category, { name, description });
+    this.repo.merge(category, { name });
     return await this.repo.save(category);
   }
 }

@@ -30,7 +30,6 @@ let UserController = class UserController {
     async login(body, response) {
         try {
             const user = await this.service.findByEmail(body.email);
-            console.log('user ', user);
             if (!user) {
                 throw new routing_controllers_1.UnauthorizedError("User not found");
             }
@@ -40,7 +39,6 @@ let UserController = class UserController {
             return response.json({ token, user });
         }
         catch (error) {
-            console.log('error ', error);
             if (error instanceof routing_controllers_1.UnauthorizedError) {
                 return response.status(401).json({ message: "User not found" });
             }
@@ -78,9 +76,9 @@ let UserController = class UserController {
             });
         }
     }
-    async getAll(response) {
+    async getAll(response, search) {
         try {
-            const newUser = await this.service.getAll();
+            const newUser = await this.service.getAll(search);
             return response.status(201).json(newUser);
         }
         catch (error) {
@@ -120,8 +118,9 @@ __decorate([
 __decorate([
     (0, routing_controllers_1.Get)("/"),
     __param(0, (0, routing_controllers_1.Res)()),
+    __param(1, (0, routing_controllers_1.QueryParam)("search")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getAll", null);
 exports.UserController = UserController = __decorate([

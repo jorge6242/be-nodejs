@@ -40,12 +40,12 @@ let ThemeController = class ThemeController {
                 .json({ message: "Error al crear ", error: error.message });
         }
     }
-    async getAll(response) {
+    async getAll(response, search) {
         if (!response.locals.permissions.includes('read')) {
             return response.status(403).json({ message: "Access denied." });
         }
         try {
-            const themes = await this.service.getAll();
+            const themes = await this.service.getAll(search);
             return response.status(200).json(themes);
         }
         catch (error) {
@@ -100,8 +100,9 @@ __decorate([
     (0, routing_controllers_1.Get)("/"),
     (0, routing_controllers_1.UseBefore)(check_role_middleware_1.CheckRoleMiddleware),
     __param(0, (0, routing_controllers_1.Res)()),
+    __param(1, (0, routing_controllers_1.QueryParam)("search")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ThemeController.prototype, "getAll", null);
 __decorate([

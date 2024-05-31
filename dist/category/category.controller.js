@@ -66,7 +66,7 @@ let CategoryController = class CategoryController {
             return response.status(403).json({ message: "Access denied." });
         }
         try {
-            const updatedCategory = await this.service.updateCategory(id, body.name, body.description);
+            const updatedCategory = await this.service.updateCategory(id, body.name);
             return response.status(200).json(updatedCategory);
         }
         catch (error) {

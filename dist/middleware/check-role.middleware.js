@@ -33,7 +33,6 @@ let CheckRoleMiddleware = class CheckRoleMiddleware {
         try {
             const decoded = jsonwebtoken_1.default.verify(token, contants_1.SECRET);
             const user = await this.userService.findByEmail(decoded.email);
-            console.log('user.roles ', user.roles);
             if (!user) {
                 return next(new routing_controllers_1.HttpError(404, "User not found"));
             }

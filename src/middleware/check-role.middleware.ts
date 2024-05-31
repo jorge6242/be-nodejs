@@ -24,7 +24,6 @@ export class CheckRoleMiddleware implements ExpressMiddlewareInterface {
         try {
             const decoded: any = jwt.verify(token, SECRET);
             const user: any = await this.userService.findByEmail(decoded.email);
-            console.log('user.roles ', user.roles);
             if (!user) {
                 return next(new HttpError(404, "User not found"));
             }

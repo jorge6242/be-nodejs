@@ -12,8 +12,8 @@ export class ThemeService {
     return this.repo.createTheme(name);
   }
 
-  async getAll(): Promise<Theme[]> {
-    return this.repo.findAll();
+  async getAll(search?: string): Promise<Theme[]> {
+    return this.repo.findAll(search);
   }
 
   async findById(id: string): Promise<Theme | null> {
